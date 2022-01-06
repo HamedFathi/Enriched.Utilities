@@ -5,6 +5,17 @@ namespace Enriched.Utilities
 {
     public static class DirectoryUtility
     {
+        public static void Copy(string sourceDir, string targetDir, bool overwrite)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)), overwrite);
+
+            foreach (var directory in Directory.GetDirectories(sourceDir))
+                Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)), overwrite);
+        }
+
         public static string CreateTempDirectory()
         {
             var tempDirectory = GetTempDirectory();

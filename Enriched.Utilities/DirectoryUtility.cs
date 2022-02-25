@@ -43,9 +43,9 @@ namespace Enriched.Utilities
 
         public static void DeleteReadOnlyDirectory(string directoryPath)
         {
-            foreach (var subdirectory in Directory.EnumerateDirectories(directoryPath))
+            foreach (var subDirectory in Directory.EnumerateDirectories(directoryPath))
             {
-                DeleteReadOnlyDirectory(subdirectory);
+                DeleteReadOnlyDirectory(subDirectory);
             }
             foreach (var fileName in Directory.EnumerateFiles(directoryPath))
             {
@@ -66,9 +66,9 @@ namespace Enriched.Utilities
             string result = folderPath;
             for (int i = 0; i < levels; i++)
             {
-                if (Directory.GetParent(result) != null)
+                if (result != null && Directory.GetParent(result) != null)
                 {
-                    result = Directory.GetParent(result).FullName;
+                    result = Directory.GetParent(result)?.FullName;
                 }
                 else
                 {
@@ -86,6 +86,19 @@ namespace Enriched.Utilities
         public static string GetTempDirectory()
         {
             return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        }
+
+        public static void Empty(this DirectoryInfo directory)
+        {
+            try
+            {
+                foreach (var file in directory.GetFiles()) file.Delete();
+                foreach (var subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public static bool RenameDirectory(string directoryPath, string newName)

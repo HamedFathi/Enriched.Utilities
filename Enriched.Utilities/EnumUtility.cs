@@ -78,5 +78,31 @@ namespace Enriched.Utilities
             var enums = GetDescriptions<TEnum>().Select(e => ignoreCase ? e.ToLower() : e);
             return enums.Contains(ignoreCase ? value.ToLower() : value);
         }
+        public static IEnumerable<EnumMemberInfo<T>> GetEnumInfo<T>() where T : Enum
+        {
+            var result = new List<EnumMemberInfo<T>>();
+            var names = Enum.GetNames(typeof(T));
+            foreach (var name in names)
+            {
+                var parsed = Enum.Parse(typeof(T), name);
+                var item = (T)parsed;
+                var value = Convert.ToInt32(parsed);
+                var description = item.GetDescription(true);
+                result.Add(new EnumMemberInfo<T>
+                {
+                    Name = name,
+                    Value = value,
+                    Description = description,
+                    Item = item
+                });
+            }
+            return result;
+        }
+
+        public static IEnumerable<EnumMemberInfo<T>> GetEnumInfo<T>(Func<EnumMemberInfo<T>, bool> predicate) where T : Enum
+        {
+            var result = GetEnumInfo<T>().Where(predicate);
+            return result;
+        }
     }
 }

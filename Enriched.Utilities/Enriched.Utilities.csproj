@@ -6,7 +6,7 @@
     <Company />
     <LangVersion>latest</LangVersion>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <Version>1.2.6</Version>
+    <Version>1.2.7</Version>
     <PackageProjectUrl>https://github.com/HamedFathi/Enriched.Utilities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/HamedFathi/Enriched.Utilities</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
